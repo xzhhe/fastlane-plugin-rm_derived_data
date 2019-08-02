@@ -7,7 +7,6 @@ module Fastlane
       def self.run(params)
         require 'json'
         require 'fileutils'
-        UI.important("[RmDerivedDataAction] begin ... 🔵")
 
         derived_data = params[:derived_data]
         xcodeproj = params[:xcodeproj]
@@ -23,12 +22,6 @@ module Fastlane
         if derived_data
           FileUtils.rm_rf(derived_data)
           UI.success("[RmDerivedDataAction] remove DerivedData success ✅")
-          return true
-        end
-
-        if module_cache_noindex && (!xcodeproj && !workspace)
-          FileUtils.rm_rf(module_cache_noindex)
-          UI.success("[RmDerivedDataAction] remove ModuleCache.noindex success ✅")
           return true
         end
 
@@ -54,17 +47,21 @@ module Fastlane
           return false
         end
 
-        ## DerivedData/DemoHaha-aojcutdqufwalmdppnjqhcygatiz
         build_settings = arr[0]['buildSettings']
+        # UI.success(build_settings)
+
+        ## DerivedData/DemoHaha-aojcutdqufwalmdppnjqhcygatiz
         build_root = build_settings['BUILD_ROOT']
         build_root = build_root.gsub('/Build/Products', '')
-        UI.important("DerivedData=#{build_root}")
+        UI.important("[RmDerivedDataAction] remove DerivedData: #{build_root} ... 🔵")
         FileUtils.rm_rf(build_root)
         UI.success("[RmDerivedDataAction] remove DerivedData success ✅")
 
         ## DerivedData/ModuleCache.noindex
         if module_cache_noindex
-          FileUtils.rm_rf(module_cache_noindex)
+          module_cache_noindex_dir = build_settings['MODULE_CACHE_DIR']
+          UI.important("[RmDerivedDataAction] remove ModuleCache.noindex: #{module_cache_noindex_dir} ... 🔵")
+          FileUtils.rm_rf(module_cache_noindex_dir)
           UI.success("[RmDerivedDataAction] remove ModuleCache.noindex success ✅")
         end
 
@@ -118,7 +115,9 @@ module Fastlane
           FastlaneCore::ConfigItem.new(
             key: :module_cache_noindex,
             description: '~/Library/Developer/Xcode/DerivedData/ModuleCache.noindex',
-            optional: true
+            optional: true,
+            is_string: false,
+            default_value: false
           )
         ]
       end

@@ -19,33 +19,28 @@ de
 ## Example
 
 ```ruby
-rm_derived_data(derived_data: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/')
-```
+rm_derived_data(derived_data: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData')
 
-```ruby
-rm_derived_data(module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex')
-```
-
-```ruby
 rm_derived_data(
   xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
   scheme: 'DemoHaha'
 )
-```
 
-```ruby
 rm_derived_data(
   xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
   scheme: 'DemoHaha',
-  module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+  module_cache_noindex: true
 )
-```
 
-```ruby
+rm_derived_data(
+  workspace: '/Users/xiongzenghui/ios_projects/osee2unified/osee2unified/osee2unified.xcworkspace',
+  scheme: 'osee2unifiedRelease'
+)
+
 rm_derived_data(
   workspace: '/Users/xiongzenghui/ios_projects/osee2unified/osee2unified/osee2unified.xcworkspace',
   scheme: 'osee2unifiedRelease',
-  module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+  module_cache_noindex: true
 )
 ```
 
