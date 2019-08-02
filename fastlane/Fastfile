@@ -1,0 +1,27 @@
+lane :test do
+  # 1.
+  rm_derived_data(derived_data: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/')
+
+  # 2. module_cache_noindex
+  rm_derived_data(module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex')
+
+  # 3.
+  rm_derived_data(
+    xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
+    scheme: 'DemoHaha'
+  )
+
+  # 4.
+  rm_derived_data(
+    xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
+    scheme: 'DemoHaha',
+    module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+  )
+
+  # 5.
+  rm_derived_data(
+    workspace: '/Users/xiongzenghui/ios_projects/osee2unified/osee2unified/osee2unified.xcworkspace',
+    scheme: 'osee2unifiedRelease',
+    module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+  )
+end
