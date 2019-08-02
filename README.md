@@ -18,9 +18,36 @@ de
 
 ## Example
 
-Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
+```ruby
+rm_derived_data(derived_data: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/')
+```
 
-**Note to author:** Please set up a sample project to make it easy for users to explore what your plugin does. Provide everything that is necessary to try out the plugin in this project (including a sample Xcode/Android project if necessary)
+```ruby
+rm_derived_data(module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex')
+```
+
+```ruby
+rm_derived_data(
+  xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
+  scheme: 'DemoHaha'
+)
+```
+
+```ruby
+rm_derived_data(
+  xcodeproj: '/Users/xiongzenghui/Desktop/DemoHaha/DemoHaha.xcodeproj',
+  scheme: 'DemoHaha',
+  module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+)
+```
+
+```ruby
+rm_derived_data(
+  workspace: '/Users/xiongzenghui/ios_projects/osee2unified/osee2unified/osee2unified.xcworkspace',
+  scheme: 'osee2unifiedRelease',
+  module_cache_noindex: '/Users/xiongzenghui/Library/Developer/Xcode/DerivedData/ModuleCache.noindex'
+)
+```
 
 ## Run tests for this plugin
 
