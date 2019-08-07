@@ -122,6 +122,10 @@ module Fastlane
         ]
       end
 
+      def self.category
+        :building
+      end
+
       def self.is_supported?(platform)
         platform == :ios
       end
