@@ -68,11 +68,8 @@ module Fastlane
         return true
       end
 
-      def self.rm_files
-      end
-
       def self.description
-        "after build finish remove xx.xcworkspace/xx.xcodeproj specify DerivedDatagst/*"
+        "after build finish remove xx.xcworkspace/xx.xcodeproj DerivedData"
       end
 
       def self.authors

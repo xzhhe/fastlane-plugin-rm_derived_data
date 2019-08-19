@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.author        = 'xiongzenghui'
   spec.email         = 'zxcvb1234001@163.com'
 
-  spec.summary       = 'de'
+  spec.summary       = 'after build finish remove xx.xcworkspace/xx.xcodeproj DerivedData'
   spec.homepage      = "https://github.com/xzhhe/fastlane-plugin-rm_derived_data"
   spec.license       = "MIT"
 
