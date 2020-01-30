@@ -8,34 +8,36 @@ module Fastlane
         require 'json'
         require 'fileutils'
 
-        derived_data = params[:derived_data]
-        xcodeproj = params[:xcodeproj]
-        workspace = params[:workspace]
-        scheme = params[:scheme]
+        system_derived_data  = params[:system_derived_data]
+        xcodeproj            = params[:xcodeproj]
+        workspace            = params[:workspace]
+        scheme               = params[:scheme]
         module_cache_noindex = params[:module_cache_noindex]
-        UI.success("derived_data=#{derived_data}")
-        UI.success("xcodeproj=#{xcodeproj}")
-        UI.success("workspace=#{workspace}")
-        UI.success("scheme=#{scheme}")
-        UI.success("module_cache_noindex=#{module_cache_noindex}")
 
-        if derived_data
-          FileUtils.rm_rf(derived_data)
-          UI.success("[RmDerivedDataAction] remove DerivedData success ✅")
+        UI.success("system_derived_data: #{system_derived_data}")
+        UI.success("xcodeproj: #{xcodeproj}")
+        UI.success("workspace: #{workspace}")
+        UI.success("scheme: #{scheme}")
+        UI.success("module_cache_noindex: #{module_cache_noindex}")
+
+        if system_derived_data
+          derived_data_path = File.expand_path('Library/Developer/Xcode/DerivedData', ENV['HOME'])
+          FileUtils.rm_rf(derived_data_path)
+          UI.success("✅remove DerivedDataPath: #{derived_data_path}")
           return true
         end
 
         if !xcodeproj && !workspace
-          UI.user_error!("xcodeproj or workspace must give one ❌")
+          UI.user_error!("❌ xcodeproj or workspace must give one")
         end
-        UI.user_error!("no scheme given ❌") unless scheme
+        UI.user_error!("❌no scheme given") unless scheme
 
         if xcodeproj
           # xcodebuild -showBuildSettings -project xx.xcodeproj -scheme xx -json
           str = Actions.sh("xcodebuild -showBuildSettings -project #{xcodeproj} -scheme #{scheme} -json")
         end
 
-        if workspace 
+        if workspace
           # xcodebuild -showBuildSettings -workspace xx.xcworkspace -scheme xx -json
           str = Actions.sh("xcodebuild -showBuildSettings -workspace #{workspace} -scheme #{scheme} -json")
         end
@@ -43,7 +45,7 @@ module Fastlane
         arr = JSON.parse(str)
         # UI.success(arr)
         if arr.empty?
-          UI.user_error!("#{scheme} no buildSettings found ❌")
+          UI.user_error!("❌#{scheme} no buildSettings found")
           return false
         end
 
@@ -53,16 +55,16 @@ module Fastlane
         ## DerivedData/DemoHaha-aojcutdqufwalmdppnjqhcygatiz
         build_root = build_settings['BUILD_ROOT']
         build_root = build_root.gsub('/Build/Products', '')
-        UI.important("[RmDerivedDataAction] remove DerivedData: #{build_root} ... 🔵")
+        UI.important("🔵remove DerivedData: #{build_root} ... ")
         FileUtils.rm_rf(build_root)
-        UI.success("[RmDerivedDataAction] remove DerivedData success ✅")
+        UI.success("✅remove DerivedData success")
 
         ## DerivedData/ModuleCache.noindex
         if module_cache_noindex
           module_cache_noindex_dir = build_settings['MODULE_CACHE_DIR']
-          UI.important("[RmDerivedDataAction] remove ModuleCache.noindex: #{module_cache_noindex_dir} ... 🔵")
+          UI.important("🔵remove ModuleCache.noindex: #{module_cache_noindex_dir} ...")
           FileUtils.rm_rf(module_cache_noindex_dir)
-          UI.success("[RmDerivedDataAction] remove ModuleCache.noindex success ✅")
+          UI.success("✅remove ModuleCache.noindex success")
         end
 
         return true
@@ -87,9 +89,11 @@ module Fastlane
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(
-            key: :derived_data,
-            description: '/path/to/DerivedData/*. like: ~/Library/Developer/Xcode/DerivedData/',
+            key: :system_derived_data,
+            description: 'if true then remove ~/Library/Developer/Xcode/DerivedData',
             optional: true,
+            is_string: false,
+            default_value: true,
             conflicting_options: [:workspace, :xcodeproj]
           ),
           FastlaneCore::ConfigItem.new(
